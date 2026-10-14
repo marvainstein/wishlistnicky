@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { Product } from '../../data/products';
 import { CAMERA_IMAGE } from '../../config';
-import { Sparkle } from '../decor/Decor';
 
 interface CameraProps {
+  /** lo que se ve en la pantalla al entrar (el título de la wishlist) */
+  home: ReactNode;
   photos: Product[];
   onOpen: (id: string) => void;
 }
@@ -15,63 +16,41 @@ function dateStamp(d = new Date()) {
 }
 
 /**
- * La cámara rosa de la imagen: en su pantalla pasan las fotos de los regalos.
- * Las flechas de la cruceta cambian de foto y el botón rosa del medio "saca la foto"
- * (flash) y abre el regalo que se ve.
+ * La cámara rosa de la imagen. En su pantalla arranca el título; con las flechas
+ * de la cruceta se pasan las fotos de los regalos, DISP vuelve al título y el
+ * botón rosa del medio "saca la foto" (flash) y abre el regalo que se ve.
  */
-export function Camera({ photos, onOpen }: CameraProps) {
-  const [i, setI] = useState(0);
+export function Camera({ home, photos, onOpen }: CameraProps) {
+  // -1 = pantalla de inicio; 0..n-1 = fotos de los regalos
+  const [i, setI] = useState(-1);
   const [shots, setShots] = useState(0);
-  const [paused, setPaused] = useState(false);
   const n = photos.length;
-  const current = n ? photos[i % n] : null;
+  const current = i >= 0 ? photos[i] : null;
 
-  // pasa sola cada tanto (salvo que la persona esté mirando o pida menos movimiento)
-  useEffect(() => {
-    if (n < 2 || paused) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const t = window.setInterval(() => setI((v) => (v + 1) % n), 3800);
-    return () => window.clearInterval(t);
-  }, [n, paused]);
-
-  const go = (step: number) => setI((v) => (v + step + n) % n);
+  // recorre: inicio -> regalo 1 -> ... -> regalo n -> inicio
+  const go = (step: number) => setI((v) => ((v + 1 + step + n + 1) % (n + 1)) - 1);
   const shoot = () => {
     setShots((s) => s + 1);
-    if (current) window.setTimeout(() => onOpen(current.id), 260);
+    window.setTimeout(() => {
+      if (current) onOpen(current.id);
+      else document.getElementById('wishlist')?.scrollIntoView({ behavior: 'smooth' });
+    }, 260);
   };
 
   return (
-    <div
-      className="cam"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
+    <div className="cam">
       <div className="cam__screen">
-        {n === 0 ? (
-          <div className="cam__splash" aria-hidden="true">
-            <Sparkle className="cam__spark cam__spark--1" />
-            <Sparkle className="cam__spark cam__spark--2" />
-            <span className="cam__splash-hi">¡ta-dah!</span>
-            <span className="cam__splash-sub">acá van a aparecer los regalos</span>
-          </div>
-        ) : (
-          photos.map((p, k) => (
-            <img
-              key={p.id}
-              className={`cam__photo${k === i % n ? ' is-on' : ''}`}
-              src={p.image}
-              alt=""
-              loading={k === 0 ? 'eager' : 'lazy'}
-            />
-          ))
-        )}
+        <div className={`cam__home${i < 0 ? ' is-on' : ''}`} aria-hidden={i >= 0}>
+          {home}
+        </div>
+        {photos.map((p, k) => (
+          <img key={p.id} className={`cam__photo${k === i ? ' is-on' : ''}`} src={p.image} alt="" loading="lazy" />
+        ))}
 
-        {/* lo que la cámara escribe encima de la foto */}
+        {/* lo que la cámara escribe encima */}
         <div className="cam__osd" aria-hidden="true">
-          <span className="cam__rec">● PLAY</span>
-          <span className="cam__count">{n ? `${(i % n) + 1}/${n}` : '0/0'}</span>
+          <span className="cam__rec">{current ? '▶ PLAY' : '● REC'}</span>
+          {current && <span>{`${i + 1}/${n}`}</span>}
           <span className="cam__batt" />
         </div>
         {current && (
@@ -88,19 +67,25 @@ export function Camera({ photos, onOpen }: CameraProps) {
       <img className="cam__body" src={CAMERA_IMAGE} alt="" />
 
       {/* botones reales encima de los dibujados */}
-      {n > 1 && (
+      {n > 0 && (
         <>
           <button type="button" className="cam__btn cam__btn--prev" onClick={() => go(-1)} aria-label="Foto anterior" />
-          <button type="button" className="cam__btn cam__btn--next" onClick={() => go(1)} aria-label="Foto siguiente" />
+          <button type="button" className="cam__btn cam__btn--next" onClick={() => go(1)} aria-label="Ver las fotos de los regalos" />
+          <button type="button" className="cam__btn cam__btn--disp" onClick={() => setI(-1)} aria-label="Volver al inicio de la cámara" />
         </>
       )}
       <button
         type="button"
         className="cam__btn cam__btn--shutter"
         onClick={shoot}
-        aria-label={current ? `Ver ${current.name}` : 'Sacar una foto'}
+        aria-label={current ? `Ver ${current.name}` : 'Ir a la wishlist'}
       />
-      <span className="cam__hint sticker" data-color="lime" aria-hidden="true">
+      {n > 0 && (
+        <span className="cam__hint cam__hint--photos sticker" data-color="blueberry" aria-hidden="true">
+          ◀ ▶ ¡mirá las fotos!
+        </span>
+      )}
+      <span className="cam__hint cam__hint--shoot sticker" data-color="lime" aria-hidden="true">
         ¡apretá!
       </span>
     </div>
