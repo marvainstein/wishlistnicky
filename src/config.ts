@@ -13,6 +13,9 @@ export const SUPABASE_READY = Boolean(SUPABASE_URL && SUPABASE_KEY);
 /** Tela de fondo de toda la página (en /public). Se repite como estampado. */
 export const SCENE_IMAGE = 'scene/tela.jpg';
 
+/** Lo que está "sacando" la cámara: se ve en su pantalla al entrar. */
+export const LIVE_IMAGE = 'scene/lizy.webp';
+
 /** La cámara rosa: PNG/WebP con la pantalla transparente (ahí se ven los regalos). */
 export const CAMERA_IMAGE = 'scene/camara.webp';
 

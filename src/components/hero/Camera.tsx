@@ -3,7 +3,7 @@ import type { Product } from '../../data/products';
 import { CAMERA_IMAGE } from '../../config';
 
 interface CameraProps {
-  /** lo que se ve en la pantalla al entrar (el título de la wishlist) */
+  /** lo que se ve en la pantalla al entrar (lo que la cámara está sacando) */
   home: ReactNode;
   photos: Product[];
   onOpen: (id: string) => void;
@@ -16,9 +16,10 @@ function dateStamp(d = new Date()) {
 }
 
 /**
- * La cámara rosa de la imagen. En su pantalla arranca el título; con las flechas
- * de la cruceta se pasan las fotos de los regalos, DISP vuelve al título y el
- * botón rosa del medio "saca la foto" (flash) y abre el regalo que se ve.
+ * La cámara rosa de la imagen. En su pantalla está lo que la cámara está sacando;
+ * con las flechas de la cruceta se pasan las fotos de los regalos, DISP vuelve al
+ * principio y el botón rosa del medio "saca la foto" (flash) y, si se ve un
+ * regalo, lo abre.
  */
 export function Camera({ home, photos, onOpen }: CameraProps) {
   // -1 = pantalla de inicio; 0..n-1 = fotos de los regalos
@@ -31,10 +32,7 @@ export function Camera({ home, photos, onOpen }: CameraProps) {
   const go = (step: number) => setI((v) => ((v + 1 + step + n + 1) % (n + 1)) - 1);
   const shoot = () => {
     setShots((s) => s + 1);
-    window.setTimeout(() => {
-      if (current) onOpen(current.id);
-      else document.getElementById('wishlist')?.scrollIntoView({ behavior: 'smooth' });
-    }, 260);
+    if (current) window.setTimeout(() => onOpen(current.id), 260);
   };
 
   return (
@@ -78,7 +76,7 @@ export function Camera({ home, photos, onOpen }: CameraProps) {
         type="button"
         className="cam__btn cam__btn--shutter"
         onClick={shoot}
-        aria-label={current ? `Ver ${current.name}` : 'Ir a la wishlist'}
+        aria-label={current ? `Ver ${current.name}` : 'Sacar la foto'}
       />
       {n > 0 && (
         <span className="cam__hint cam__hint--photos sticker" data-color="blueberry" aria-hidden="true">
