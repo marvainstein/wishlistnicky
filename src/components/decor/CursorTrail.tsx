@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-/** Estelas rosa / celeste / verde que siguen al cursor, como volando. Solo con mouse. */
-const COLORS = ['#ff5fa8', '#4fc3f7', '#7ed957'];
-const OUTLINE = '#1d0b22';
+/** Estelas rosa / violeta / turquesa que siguen al cursor, como volando. Solo con mouse. */
+const COLORS = ['#ff3fa4', '#a54df0', '#2fd0dc'];
+const OUTLINE = '#5c0f45';
 const LIFE_MS = 420; // cuánto dura cada punto de la estela
 const BAND = 9; // ancho de cada franja (px) en la punta
 const COLOR_ALPHA = 0.6;

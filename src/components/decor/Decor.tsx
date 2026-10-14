@@ -1,36 +1,17 @@
 import type { CSSProperties } from 'react';
-import { SCENE_IMAGE, SUN_FACE, SUN_IMAGE } from '../../config';
+import { SCENE_IMAGE } from '../../config';
 
 /* Elementos decorativos (aria-hidden). */
 
-/** Paisaje fotográfico fijo detrás de toda la página. */
+/** La tela rosa de Lizzie, fija detrás de toda la página. */
 export function Scene() {
-  return (
-    <div className="scene" aria-hidden="true">
-      <img src={SCENE_IMAGE} alt="" />
-    </div>
-  );
-}
-
-/** El sol (foto), con bordes fundidos en el cielo y, opcional, otra cara en el centro. */
-export function Sun({ className = '', style }: { className?: string; style?: CSSProperties }) {
-  return (
-    <div className={`sun ${className}`} style={style} aria-hidden="true">
-      <div className="sun__glow" />
-      <img className="sun__photo" src={SUN_IMAGE} alt="" />
-      {SUN_FACE && (
-        <div className="sun__face">
-          <img src={SUN_FACE} alt="" />
-        </div>
-      )}
-    </div>
-  );
+  return <div className="scene" aria-hidden="true" style={{ backgroundImage: `url(${SCENE_IMAGE})` }} />;
 }
 
 export function PointerArrow({ className = '', style }: { className?: string; style?: CSSProperties }) {
   return (
     <svg className={`pointer-arrow ${className}`} style={style} viewBox="0 0 22 26" aria-hidden="true">
-      <path d="M2 2 L2 20 L7 15.5 L10.5 23 L14 21.5 L10.6 14.2 L17.5 14 Z" fill="#fff" stroke="#1c2a56" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M2 2 L2 20 L7 15.5 L10.5 23 L14 21.5 L10.6 14.2 L17.5 14 Z" fill="#fff" stroke="#5c0f45" strokeWidth="2" strokeLinejoin="round" />
     </svg>
   );
 }

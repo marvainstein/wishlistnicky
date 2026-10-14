@@ -1,9 +1,8 @@
-/** Cierre: el sol que te acompañó se pone acá (en el hueco data-sun-slot="end"). */
+/** Cierre de la página. */
 export function FinalCta() {
   return (
     <section className="final" aria-labelledby="final-title">
       <div className="final__inner">
-        <div className="final__sun-slot" data-sun-slot="end" aria-hidden="true" />
         <div className="final__copy">
           <p className="final__kicker lcd">¡OTRA VEZ!</p>
           <h2 id="final-title" className="final__title">
@@ -21,7 +20,7 @@ export function FinalCta() {
         </div>
       </div>
       <footer className="footer">
-        <span>hecho con ♥ para mi cumple</span>
+        <span>hecho con ♥</span>
       </footer>
     </section>
   );

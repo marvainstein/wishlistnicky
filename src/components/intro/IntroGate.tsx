@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Sun } from '../decor/Decor';
+import { Sparkle } from '../decor/Decor';
 import { SCENE_IMAGE } from '../../config';
 import './intro.css';
 
@@ -9,8 +9,8 @@ interface IntroGateProps {
 }
 
 /**
- * Pantalla de entrada: el sol espera detrás del horizonte. Al tocar "¡entrar!"
- * arranca la música (necesita ese toque) y el sol sube.
+ * Pantalla de entrada sobre la tela de Lizzie. Al tocar "¡entrar!" arranca la
+ * música, si hay (el navegador necesita ese toque).
  */
 export function IntroGate({ hasMusic, onEnter }: IntroGateProps) {
   const [leaving, setLeaving] = useState(false);
@@ -33,17 +33,18 @@ export function IntroGate({ hasMusic, onEnter }: IntroGateProps) {
       aria-modal="true"
       aria-labelledby="gate-title"
       style={{
-        backgroundImage: `repeating-conic-gradient(from 0deg at 50% 105%, rgba(255, 255, 255, 0.22) 0 6deg, rgba(255, 255, 255, 0) 6deg 16deg), url(${SCENE_IMAGE})`,
+        backgroundImage: `repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.2) 0 6deg, rgba(255, 255, 255, 0) 6deg 16deg), url(${SCENE_IMAGE})`,
       }}
     >
-      <Sun className="gate__sun" />
-      <div className="gate__panel">
-        <p className="gate__kicker lcd">★ hello! ★</p>
+      <div className="gate__panel toon" data-color="strawberry">
+        <Sparkle className="gate__spark gate__spark--1" />
+        <Sparkle className="gate__spark gate__spark--2" />
+        <p className="gate__kicker lcd">★ la wishlist de Nicky ★</p>
         <h1 id="gate-title" className="gate__title">
-          ¡llegó el cumple!
+          ¡ta-dah!
         </h1>
         <button type="button" className="plastic-btn gate__enter" data-color="strawberry" onClick={() => enter(true)} autoFocus>
-          ☀ {hasMusic ? '¡entrar con música!' : '¡entrar!'}
+          ♡ {hasMusic ? '¡entrar con música!' : '¡entrar!'}
         </button>
         {hasMusic && (
           <button type="button" className="plastic-btn plastic-btn--ghost gate__quiet" onClick={() => enter(false)}>

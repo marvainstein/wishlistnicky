@@ -1,7 +1,7 @@
-import type { CSSProperties } from 'react';
 import type { Product } from '../../data/products';
 import { Window } from '../ui/Window';
-import { PointerArrow, Sparkle } from '../decor/Decor';
+import { Sparkle } from '../decor/Decor';
+import { Camera } from './Camera';
 import './hero.css';
 
 interface HeroProps {
@@ -16,21 +16,19 @@ export function Hero({ featured, total, reservedCount, onOpen }: HeroProps) {
 
   return (
     <section id="inicio" className="hero" aria-labelledby="hero-title">
-      <div className="hero__sun" data-sun-slot="start" aria-hidden="true" />
-
       <div className="hero__stage">
 
         <Sparkle className="hero__spark hero__spark--1" />
         <Sparkle className="hero__spark hero__spark--2" />
 
         <Window
-          title="¡llegó el cumple!"
-          color="tangerine"
+          title="¡hottie alert!"
+          color="strawberry"
           className="hero__window"
           status={
             <>
               <span>{total} deseos · {reservedCount} reservados</span>
-              <span>hoy: soleado ☀</span>
+              <span>modo: diva ✦</span>
             </>
           }
         >
@@ -44,7 +42,7 @@ export function Hero({ featured, total, reservedCount, onOpen }: HeroProps) {
             <h1 id="hero-title" className="hero__title">
               <span className="hero__word hero__word--wish" data-text="Wish">Wish</span>
               <span className="hero__word hero__word--list" data-text="list">list</span>
-              <span className="hero__tag sticker" data-color="lime">de cumple ♡</span>
+              <span className="hero__tag sticker" data-color="blueberry">de Nicky ♡</span>
             </h1>
 
             <p className="hero__lede">
@@ -72,21 +70,7 @@ export function Hero({ featured, total, reservedCount, onOpen }: HeroProps) {
           </div>
         </Window>
 
-        <ul className="hero__stickers" aria-label="Algunos regalos de la lista">
-          {featured.map((p, i) => (
-            <li key={p.id} data-color={p.look?.color ?? 'strawberry'} style={{ '--i': i } as CSSProperties}>
-              <button type="button" className="photo-sticker" onClick={() => onOpen(p.id)}>
-                <img src={p.image} alt="" loading="eager" />
-                <span className="photo-sticker__cap">{p.name}</span>
-                <span className="sr-only">Abrir {p.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="hero__click" aria-hidden="true">
-          <span className="sticker" data-color="grape">CLICK!</span>
-          <PointerArrow className="hero__arrow" />
-        </div>
+        <Camera photos={featured} onOpen={onOpen} />
       </div>
 
     </section>

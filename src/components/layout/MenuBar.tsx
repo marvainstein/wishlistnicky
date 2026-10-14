@@ -5,7 +5,7 @@ import './menubar.css';
 const LINKS = [
   { href: '#inicio', label: 'inicio', color: 'strawberry' },
   { href: '#wishlist', label: 'wishlist', color: 'blueberry' },
-  { href: '#como', label: 'cómo funciona', color: 'lime' },
+  { href: '#como', label: 'cómo funciona', color: 'grape' },
 ];
 
 const MODE_LABEL: Record<SyncMode, string> = {
@@ -19,8 +19,8 @@ export function MenuBar({ mode, music }: { mode: SyncMode; music: Music }) {
   return (
     <header className="menubar">
       <nav className="menubar__inner" aria-label="Navegación principal">
-        <a className="menubar__logo" href="#inicio" aria-label="Mi cumple, ir al inicio">
-          <span aria-hidden="true">★</span> mi cumple
+        <a className="menubar__logo" href="#inicio" aria-label="Wishlist de Nicky, ir al inicio">
+          <span aria-hidden="true">♡</span> Nicky
         </a>
         <ul className="menubar__links">
           {LINKS.map((l) => (

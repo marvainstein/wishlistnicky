@@ -19,12 +19,10 @@ body {
   font-size: var(--t-md);
   line-height: 1.55;
   color: var(--outline);
-  /* cielo arriba; el pasto lo pone .meadow */
-  background-color: var(--grass-mid);
-  background-image: linear-gradient(180deg, var(--sky-top) 0, var(--sky-mid) 520px, var(--sky-low) 900px, var(--sky-low) 1100px);
-  background-repeat: no-repeat;
+  /* la tela la pone .scene; esto es por si tarda */
+  background-color: var(--fabric);
   overflow-x: hidden;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='26' viewBox='0 0 22 26'%3E%3Cpath d='M2 2 L2 20 L7 15.5 L10.5 23 L14 21.5 L10.6 14.2 L17.5 14 Z' fill='%23fff' stroke='%231c2a56' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='26' viewBox='0 0 22 26'%3E%3Cpath d='M2 2 L2 20 L7 15.5 L10.5 23 L14 21.5 L10.6 14.2 L17.5 14 Z' fill='%23fff' stroke='%235c0f45' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, auto;
 }
 
 /* grano sutil sobre todo (que no quede digital y liso) */
@@ -34,7 +32,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 200;
-  opacity: 0.05;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -42,7 +40,7 @@ a,
 button,
 [role='button'],
 label {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='26' viewBox='0 0 24 26'%3E%3Cpath d='M8 2.5c1.2 0 2 .9 2 2V12l1-.2V9.8c0-1.1.9-2 2-2s2 .9 2 2v2.4l.8-.1c1.2-.2 2.2.7 2.2 1.9v1.1l.4-.1c1.2-.2 2.1.7 2.1 1.9V19c0 2.8-2.3 5-5 5h-4.2c-1.5 0-2.9-.7-3.9-1.8L3 17.4c-.8-.9-.7-2.2.2-2.9.8-.6 1.9-.5 2.6.2L6 15V4.5c0-1.1.9-2 2-2z' fill='%23fff' stroke='%231c2a56' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 8 2, pointer;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='26' viewBox='0 0 24 26'%3E%3Cpath d='M8 2.5c1.2 0 2 .9 2 2V12l1-.2V9.8c0-1.1.9-2 2-2s2 .9 2 2v2.4l.8-.1c1.2-.2 2.2.7 2.2 1.9v1.1l.4-.1c1.2-.2 2.1.7 2.1 1.9V19c0 2.8-2.3 5-5 5h-4.2c-1.5 0-2.9-.7-3.9-1.8L3 17.4c-.8-.9-.7-2.2.2-2.9.8-.6 1.9-.5 2.6.2L6 15V4.5c0-1.1.9-2 2-2z' fill='%23fff' stroke='%235c0f45' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 8 2, pointer;
 }
 
 main {
@@ -137,10 +135,11 @@ button {
   text-decoration: none;
   white-space: nowrap;
   color: var(--c-ink);
+  /* gelatina: brillo arriba, color que se oscurece abajo */
   background:
-    radial-gradient(60% 40% at 30% 22%, rgba(255, 255, 255, 0.75) 0 40%, transparent 42%),
-    var(--c);
-  box-shadow: 0 var(--depth) 0 var(--outline);
+    radial-gradient(70% 45% at 35% 18%, rgba(255, 255, 255, 0.85) 0 38%, transparent 42%),
+    linear-gradient(180deg, var(--c) 40%, var(--c-dark) 130%);
+  box-shadow: 0 var(--depth) 0 var(--outline), inset 0 -3px 6px rgba(255, 255, 255, 0.35);
   transform: translateY(0);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   -webkit-tap-highlight-color: transparent;
@@ -176,13 +175,21 @@ button {
   --c-dark: var(--grape-dark);
   --c-ink: var(--grape-ink);
 }
-/* Panel de dibujo animado: color plano, contorno grueso, sombra dura desplazada */
+/* Panel de cámara digital rosa: cromo con reflejos, contorno frambuesa, sombra dura */
 .toon {
   position: relative;
   border: var(--line) solid var(--outline);
   border-radius: var(--r-lg);
-  background: var(--c);
-  box-shadow: var(--hard) var(--hard) 0 var(--outline);
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 26%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0.4) 61%, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--c) 40%, var(--chrome-hi)) 0%,
+      color-mix(in srgb, var(--c) 55%, var(--chrome)) 45%,
+      color-mix(in srgb, var(--c) 65%, var(--chrome-lo)) 100%);
+  box-shadow:
+    var(--hard) var(--hard) 0 var(--outline),
+    inset 0 2px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -3px 0 rgba(92, 15, 69, 0.15);
 }
 .win {
   padding: 0 10px 10px;
@@ -214,11 +221,12 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-family: var(--font-script);
+  font-size: 1.2rem;
+  line-height: 1.6;
   text-align: center;
   color: #fff;
-  -webkit-text-stroke: 2px var(--outline);
+  -webkit-text-stroke: 3px var(--outline);
   paint-order: stroke fill;
 }
 .win__close {
@@ -278,11 +286,13 @@ button {
   padding: 0.4em 0.9em;
   border-radius: 999px;
   border: var(--line) solid var(--outline);
-  background: var(--c);
+  background:
+    radial-gradient(70% 50% at 35% 15%, rgba(255, 255, 255, 0.7) 0 35%, transparent 40%),
+    var(--c);
   color: var(--c-ink);
-  font-family: var(--font-display);
+  font-family: var(--font-script);
   font-size: var(--t-md);
-  line-height: 1;
+  line-height: 1.25;
   white-space: nowrap;
   box-shadow: 3px 3px 0 var(--outline);
   transform: rotate(var(--rot, -6deg));

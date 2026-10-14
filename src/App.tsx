@@ -11,7 +11,6 @@ import { ProductWindow } from './components/modal/ProductWindow';
 import { ClickSparkles } from './components/decor/ClickSparkles';
 import { CursorTrail } from './components/decor/CursorTrail';
 import { Scene } from './components/decor/Decor';
-import { SunCompanion } from './components/decor/SunCompanion';
 import { IntroGate } from './components/intro/IntroGate';
 import { useMusic } from './lib/useMusic';
 
@@ -24,17 +23,17 @@ export default function App() {
   }, [live]);
   const [open, setOpen] = useState<{ id: string; intent?: 'reserve' } | null>(null);
   const music = useMusic();
-  // pantalla de entrada -> el sol sube -> se va la pantalla
+  // pantalla de entrada -> se va con un fundido
   const [gate, setGate] = useState<'shown' | 'leaving' | 'gone'>('shown');
   const enter = (withSound: boolean) => {
     if (withSound) music.play();
     setGate('leaving');
-    window.setTimeout(() => setGate('gone'), 2100);
+    window.setTimeout(() => setGate('gone'), 1000);
   };
 
-  // en el hero aparecen los más queridos primero (hasta 3)
+  // en la cámara del inicio pasan los regalos, los más queridos primero
   const featured = useMemo(
-    () => [...products].sort((a, b) => (b.hearts ?? 0) - (a.hearts ?? 0)).slice(0, 3),
+    () => [...products].sort((a, b) => (b.hearts ?? 0) - (a.hearts ?? 0)).slice(0, 12),
     [],
   );
 
@@ -45,7 +44,6 @@ export default function App() {
   return (
     <>
       <Scene />
-      <SunCompanion up={gate !== 'shown'} />
       <a className="skip-link" href="#wishlist">
         Saltar a la wishlist
       </a>

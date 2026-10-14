@@ -10,17 +10,11 @@ export const SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY ?? '';
 
 export const SUPABASE_READY = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
-/** Foto de fondo de toda la página (en /public). */
-export const SCENE_IMAGE = 'scene/paisaje.jpg';
+/** Tela de fondo de toda la página (en /public). Se repite como estampado. */
+export const SCENE_IMAGE = 'scene/tela.jpg';
 
-/** Foto del sol (en /public), recortada cuadrada y centrada en el sol. */
-export const SUN_IMAGE = 'scene/sol.jpg';
-
-/**
- * Cara que se superpone en el centro del sol (archivo en /public, por ejemplo
- * "scene/luli-sol.jpg"). Si queda vacío, se ve el sol de la foto tal cual.
- */
-export const SUN_FACE: string | undefined = undefined;
+/** La cámara rosa: PNG/WebP con la pantalla transparente (ahí se ven los regalos). */
+export const CAMERA_IMAGE = 'scene/camara.webp';
 
 /**
  * Canción que suena al entrar (archivo en /public). Si el archivo no existe,
